@@ -12,50 +12,44 @@
 ---
 
 ## Project Overview
-This repository contains a production-grade implementation of a **Cloud-Native Data Lakehouse**. The system utilizes the **Medallion Architecture** to automate the journey of raw sales data from ingestion to high-level business intelligence. The primary objective is to ensure data reliability, schema enforcement, and optimized analytical performance within a containerized S3-compatible environment.
+This repository showcases a professional implementation of a **Cloud-Native Data Lakehouse**. By leveraging the **Medallion Architecture**, the system automates the lifecycle of sales data—from raw ingestion into a containerized S3 environment to the generation of high-performance analytical insights. The project focuses on data integrity, schema evolution, and storage optimization using columnar formats.
 
 ## System Architecture
-The pipeline follows a linear data refinement strategy, ensuring that each layer adds specific value to the dataset:
+The pipeline is designed with a three-tier refinement strategy to ensure data reliability and accessibility:
 
 <p align="center">
-  <img src="screenshots/architecture.png" width="900" alt="System Architecture Diagram">
+  <img src="screenshots/architecture.png" width="900" alt="System Architecture">
 </p>
 
-### Data Refinement Layers
-*   **Bronze Layer (Raw):** Serves as the landing zone for immutable raw data ingested directly from local sources into MinIO S3 buckets.
-*   **Silver Layer (Refined):** Performs data cleansing, header normalization, and schema enforcement. Data is converted into the **Parquet** columnar format for storage efficiency.
-*   **Gold Layer (Curated):** Contains aggregated business KPIs and high-level summaries ready for reporting and visualization.
+### The Medallion Standard
+*   **Bronze Layer (Raw Storage):** Acts as the landing zone for immutable raw datasets. Data is ingested directly into MinIO S3 buckets without modification to preserve the original state.
+*   **Silver Layer (Refined Data):** Focuses on data quality. This stage involves cleaning headers, enforcing data types, and converting files into **Apache Parquet** format for superior compression and query speed.
+*   **Gold Layer (Analytical Insights):** The final stage where data is aggregated into business-ready KPIs and summaries, optimized for visualization and reporting.
 
 ---
 
-## Technical Specifications
+## Technical Stack
 
-| Component | Technology | Functional Role |
+| Category | Technology | Implementation |
 | :--- | :--- | :--- |
-| **Infrastructure** | **Docker** | Orchestrates containerized services for the MinIO storage environment. |
-| **Storage Engine** | **MinIO (S3)** | Provides a cloud-native, S3-compatible object storage for the Medallion layers. |
-| **Orchestration** | **Python (main.py)** | Acts as the master controller for sequential pipeline execution and error handling. |
-| **Processing** | **Pandas** | Manages data transformation, type casting, and schema validation. |
-| **Analytics** | **DuckDB** | Executes high-performance SQL queries for complex data aggregations. |
+| **Infrastructure** | **Docker** | Containerization of the MinIO S3 object storage environment. |
+| **Object Storage** | **MinIO** | S3-compatible cloud-native storage for hosting Medallion tiers. |
+| **Orchestration** | **Python** | Centralized control through `main.py` for automated ETL execution. |
+| **Data Processing** | **Pandas** | Comprehensive data cleaning, transformation, and schema enforcement. |
+| **OLAP Engine** | **DuckDB** | Lightning-fast SQL execution for complex analytical aggregations. |
 
 ---
 
-## Implementation Details
-
-### 1. Automated Data Ingestion
-The ingestion module leverages the `Boto3` SDK to facilitate secure data transfer between the local development environment and the Bronze storage tier.
-
-### 2. Transformation Logic
-The Silver layer transformation ensures data integrity by removing null values and enforcing standard naming conventions. The transition to Parquet significantly reduces storage footprint and enhances query speeds.
-
-### 3. Analytical Views
-The Gold layer utilizes the `DuckDB` engine to compute mission-critical metrics, such as total revenue and order volume per region, directly from the refined Silver datasets.
-
----
-
-## Pipeline Execution and Validation
-
-### Orchestration Sequence
-To initialize the end-to-end automated pipeline, execute the master orchestrator from the root directory:
-```bash
-python main.py
+## Directory Structure
+```text
+cloud-native-lakehouse/
+├── data/                   # Local cache for raw and processed layers
+│   ├── gold_layer/         # Final aggregated summaries
+│   └── silver_sales/       # Refined Parquet datasets
+├── docker/                 # Infrastructure as Code (docker-compose.yml)
+├── scripts/                # Modular ETL components
+│   ├── ingest_to_bronze.py
+│   ├── transform_to_silver.py
+│   ├── transform_to_gold.py
+│   └── view_data.py        # Data validation and preview utility
+└── main.py                 # Master pipeline orchestrator
