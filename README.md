@@ -12,7 +12,7 @@
 ---
 
 ## Project Overview
-This repository contains a production-grade implementation of a **Cloud-Native Data Lakehouse**. The system utilizes the **Medallion Architecture** to automate the journey of raw sales data from ingestion to high-level business intelligence. The primary objective is to ensure data reliability, schema enforcement, and optimized analytical performance within a containerized S3-compatible environment.
+This repository contains a professional implementation of a **Cloud-Native Data Lakehouse**. By leveraging the **Medallion Architecture**, the system automates the lifecycle of sales data—from raw ingestion into a containerized S3 environment to the generation of high-performance analytical insights. The primary focus remains on data reliability, schema enforcement, and storage optimization using columnar formats.
 
 ## System Architecture
 The pipeline follows a linear data refinement strategy, ensuring that each layer adds specific value to the dataset:
